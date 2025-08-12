@@ -1,36 +1,43 @@
 --[[
+====================================================================================================
 -- ALL-IN-ONE GUI - Compiled by an AI Assistant
 -- This script combines multiple user-provided scripts into a single, tabbed interface for ease of use.
 -- All original credits are maintained within their respective functions.
 -- VISUALLY REFINED VERSION
+====================================================================================================
 ]]
+
 -- Create the master ScreenGui to hold everything
 local allInOneGui = Instance.new("ScreenGui")
 allInOneGui.Name = "AllInOneGui"
 allInOneGui.ResetOnSpawn = false
 allInOneGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 allInOneGui.Parent = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui") or game:GetService("CoreGui")
+
 -- Main Draggable Window
 local mainWindow = Instance.new("Frame")
 mainWindow.Name = "MainWindow"
 mainWindow.Size = UDim2.new(0, 520, 0, 380) -- Slightly larger for better spacing
 mainWindow.Position = UDim2.new(0.5, -260, 0.5, -190)
 mainWindow.BackgroundColor3 = Color3.fromRGB(35, 37, 43) -- Darker, modern background
-mainWindow.BorderColor3 = Color3.fromRGB(80, 80, 80)
 mainWindow.BorderSizePixel = 0 -- No border for a flatter look
 mainWindow.Active = true
 mainWindow.Draggable = true
 mainWindow.Parent = allInOneGui
+
 local corner = Instance.new("UICorner", mainWindow)
 corner.CornerRadius = UDim.new(0, 12) -- Larger radius for a softer look
+
 -- Title Bar
 local titleBar = Instance.new("Frame") -- Using a frame for more control
 titleBar.Name = "TitleBar"
 titleBar.Size = UDim2.new(1, 0, 0, 35)
 titleBar.BackgroundColor3 = Color3.fromRGB(28, 29, 34) -- Contrasting title bar
 titleBar.Parent = mainWindow
+
 local titleCorner = Instance.new("UICorner", titleBar)
 titleCorner.CornerRadius = UDim.new(0, 12)
+
 local titleLabel = Instance.new("TextLabel")
 titleLabel.Name = "TitleLabel"
 titleLabel.Size = UDim2.new(1, -40, 1, 0) -- Leave space for close button
@@ -42,6 +49,7 @@ titleLabel.Text = "JARADD's All-in-One Script Hub"
 titleLabel.Font = Enum.Font.SourceSansBold
 titleLabel.TextSize = 18
 titleLabel.Parent = titleBar
+
 -- Close Button for the Main Window
 local closeButton = Instance.new("TextButton")
 closeButton.Name = "CloseButton"
@@ -55,8 +63,10 @@ closeButton.TextSize = 18
 closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 closeButton.ZIndex = 2
 closeButton.Parent = titleBar
+
 local closeCorner = Instance.new("UICorner", closeButton)
 closeCorner.CornerRadius = UDim.new(0, 8)
+
 local closeIcon = Instance.new("TextLabel", closeButton)
 closeIcon.Size = UDim2.new(1, 0, 1, 0)
 closeIcon.Text = "X"
@@ -64,9 +74,11 @@ closeIcon.BackgroundTransparency = 1
 closeIcon.Font = Enum.Font.SourceSansBold
 closeIcon.TextColor3 = Color3.fromRGB(255, 255, 255)
 closeIcon.TextSize = 16
+
 closeButton.MouseButton1Click:Connect(function()
-allInOneGui:Destroy()
+    allInOneGui:Destroy()
 end)
+
 -- Tab Container
 local tabContainer = Instance.new("Frame")
 tabContainer.Name = "TabContainer"
@@ -75,11 +87,13 @@ tabContainer.Position = UDim2.new(0.5, 0, 0, 45)
 tabContainer.AnchorPoint = Vector2.new(0.5, 0)
 tabContainer.BackgroundTransparency = 1
 tabContainer.Parent = mainWindow
+
 local tabLayout = Instance.new("UIListLayout")
 tabLayout.FillDirection = Enum.FillDirection.Horizontal
 tabLayout.Padding = UDim.new(0, 10)
 tabLayout.VerticalAlignment = Enum.VerticalAlignment.Center
 tabLayout.Parent = tabContainer
+
 -- Content Area for script buttons
 local contentArea = Instance.new("Frame")
 contentArea.Name = "ContentArea"
@@ -88,38 +102,42 @@ contentArea.Position = UDim2.new(0.5, 0, 0, 90)
 contentArea.AnchorPoint = Vector2.new(0.5, 0)
 contentArea.BackgroundTransparency = 1
 contentArea.Parent = mainWindow
+
 local contentLayout = Instance.new("UIGridLayout")
 contentLayout.CellPadding = UDim2.new(0, 15, 0, 15)
 contentLayout.CellSize = UDim2.new(0, 140, 0, 45)
 contentLayout.StartCorner = Enum.StartCorner.TopLeft
 contentLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+
 -- Function to create a tab button
 local function createTabButton(text)
-local tabBtn = Instance.new("TextButton")
-tabBtn.Name = text .. "Tab"
-tabBtn.Size = UDim2.new(0, 130, 0, 32)
-tabBtn.BackgroundColor3 = Color3.fromRGB(45, 47, 54) -- Inactive tab color
-tabBtn.TextColor3 = Color3.fromRGB(180, 180, 185)
-tabBtn.Font = Enum.Font.SourceSansSemibold
-tabBtn.TextSize = 16
-tabBtn.Text = text
-tabBtn.Parent = tabContainer
-Instance.new("UICorner", tabBtn).CornerRadius = UDim.new(0, 8)
-return tabBtn
+    local tabBtn = Instance.new("TextButton")
+    tabBtn.Name = text .. "Tab"
+    tabBtn.Size = UDim2.new(0, 130, 0, 32)
+    tabBtn.BackgroundColor3 = Color3.fromRGB(45, 47, 54) -- Inactive tab color
+    tabBtn.TextColor3 = Color3.fromRGB(180, 180, 185)
+    tabBtn.Font = Enum.Font.SourceSansSemibold
+    tabBtn.TextSize = 16
+    tabBtn.Text = text
+    tabBtn.Parent = tabContainer
+    Instance.new("UICorner", tabBtn).CornerRadius = UDim.new(0, 8)
+    return tabBtn
 end
+
 -- Function to create a script-launching button
 local function createScriptButton(text, parentFrame)
-local scriptBtn = Instance.new("TextButton")
-scriptBtn.Name = text:gsub(" ", "") .. "Button"
-scriptBtn.BackgroundColor3 = Color3.fromRGB(88, 101, 242) -- A nice modern blue/purple
-scriptBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-scriptBtn.Font = Enum.Font.SourceSansSemibold
-scriptBtn.TextSize = 15
-scriptBtn.Text = text
-scriptBtn.Parent = parentFrame
-Instance.new("UICorner", scriptBtn).CornerRadius = UDim.new(0, 8)
-return scriptBtn
+    local scriptBtn = Instance.new("TextButton")
+    scriptBtn.Name = text:gsub(" ", "") .. "Button"
+    scriptBtn.BackgroundColor3 = Color3.fromRGB(88, 101, 242) -- A nice modern blue/purple
+    scriptBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    scriptBtn.Font = Enum.Font.SourceSansSemibold
+    scriptBtn.TextSize = 15
+    scriptBtn.Text = text
+    scriptBtn.Parent = parentFrame
+    Instance.new("UICorner", scriptBtn).CornerRadius = UDim.new(0, 8)
+    return scriptBtn
 end
+
 -- Create Tab Frames
 local petToolsFrame = Instance.new("Frame")
 petToolsFrame.Name = "PetToolsFrame"
@@ -127,6 +145,7 @@ petToolsFrame.Size = UDim2.new(1, 0, 1, 0)
 petToolsFrame.BackgroundTransparency = 1
 petToolsFrame.Parent = contentArea
 petToolsFrame.Layout = contentLayout:Clone()
+
 local playerToolsFrame = Instance.new("Frame")
 playerToolsFrame.Name = "PlayerToolsFrame"
 playerToolsFrame.Size = UDim2.new(1, 0, 1, 0)
@@ -134,258 +153,274 @@ playerToolsFrame.BackgroundTransparency = 1
 playerToolsFrame.Visible = false
 playerToolsFrame.Parent = contentArea
 playerToolsFrame.Layout = contentLayout:Clone()
+
 -- Create Tab Buttons
 local petTabBtn = createTabButton("Pet Tools")
 local playerTabBtn = createTabButton("Player Tools")
+
 local activeTabColor = Color3.fromRGB(66, 69, 79)
 local inactiveTabColor = Color3.fromRGB(45, 47, 54)
+
 -- Tab switching logic
 local function setActiveTab(activeButton, inactiveButton, activeFrame, inactiveFrame)
-activeFrame.Visible = true
-inactiveFrame.Visible = false
-activeButton.BackgroundColor3 = activeTabColor
-inactiveButton.BackgroundColor3 = inactiveTabColor
+    activeFrame.Visible = true
+    inactiveFrame.Visible = false
+    activeButton.BackgroundColor3 = activeTabColor
+    inactiveButton.BackgroundColor3 = inactiveTabColor
 end
+
 petTabBtn.MouseButton1Click:Connect(function()
-setActiveTab(petTabBtn, playerTabBtn, petToolsFrame, playerToolsFrame)
+    setActiveTab(petTabBtn, playerTabBtn, petToolsFrame, playerToolsFrame)
 end)
+
 playerTabBtn.MouseButton1Click:Connect(function()
-setActiveTab(playerTabBtn, petTabBtn, playerToolsFrame, petToolsFrame)
+    setActiveTab(playerTabBtn, petTabBtn, playerToolsFrame, petToolsFrame)
 end)
+
 -- Set initial active tab
 setActiveTab(petTabBtn, playerTabBtn, petToolsFrame, playerToolsFrame)
+
+
 --- SCRIPT FUNCTIONS (Each script is wrapped in its own function) ---
+
 -- ========================================================== --
 -- SCRIPT 1: FAKE AGE CHANGER
 -- ========================================================== --
 local function runFakeAgeChanger()
--- Credit: Original Script
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-code
-Code
-local screenGui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
-screenGui.Name = "FakeAgeChanger"
-screenGui.ResetOnSpawn = false
+    -- Credit: Original Script
+    local Players = game:GetService("Players")
+    local player = Players.LocalPlayer
+    local character = player.Character or player.CharacterAdded:Wait()
 
-local frame = Instance.new("Frame", screenGui)
-frame.Size = UDim2.new(0, 220, 0, 120)
-frame.Position = UDim2.new(0.4, 0, 0.4, 0)
-frame.BackgroundColor3 = Color3.fromRGB(0, 128, 128)
-frame.BackgroundTransparency = 0.1
-frame.BorderSizePixel = 0
-frame.Active = true
-frame.Draggable = true
-Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 12)
+    local screenGui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+    screenGui.Name = "FakeAgeChanger"
+    screenGui.ResetOnSpawn = false
 
-local title = Instance.new("TextLabel", frame)
-title.Text = "🕒 Set Equipped Pet Age to 50"
-title.Font = Enum.Font.FredokaOne
-title.TextSize = 18
-title.TextColor3 = Color3.fromRGB(255, 255, 255)
-title.BackgroundTransparency = 1
-title.Size = UDim2.new(1, 0, 0, 30)
-title.Position = UDim2.new(0, 0, 0, 0)
+    local frame = Instance.new("Frame", screenGui)
+    frame.Size = UDim2.new(0, 220, 0, 120)
+    frame.Position = UDim2.new(0.4, 0, 0.4, 0)
+    frame.BackgroundColor3 = Color3.fromRGB(0, 128, 128)
+    frame.BackgroundTransparency = 0.1
+    frame.BorderSizePixel = 0
+    frame.Active = true
+    frame.Draggable = true
+    Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 12)
 
-local petInfo = Instance.new("TextLabel", frame)
-petInfo.Text = "Equipped Pet: [None]"
-petInfo.Font = Enum.Font.Gotham
-petInfo.TextSize = 16
-petInfo.TextColor3 = Color3.fromRGB(255, 255, 150)
-petInfo.BackgroundTransparency = 1
-petInfo.Position = UDim2.new(0, 0, 0, 30)
-petInfo.Size = UDim2.new(1, 0, 0, 25)
-petInfo.TextScaled = true
-petInfo.TextWrapped = true
+    local title = Instance.new("TextLabel", frame)
+    title.Text = "🕒 Set Equipped Pet Age to 50"
+    title.Font = Enum.Font.FredokaOne
+    title.TextSize = 18
+    title.TextColor3 = Color3.fromRGB(255, 255, 255)
+    title.BackgroundTransparency = 1
+    title.Size = UDim2.new(1, 0, 0, 30)
+    title.Position = UDim2.new(0, 0, 0, 0)
 
-local function createStyledButton(text, yPos, color)
-    local btn = Instance.new("TextButton")
-    btn.Size = UDim2.new(0.9, 0, 0, 35)
-    btn.Position = UDim2.new(0.05, 0, 0, yPos)
-    btn.BackgroundColor3 = Color3.fromRGB(40, 43, 74)
-    btn.Text = text
-    btn.Font = Enum.Font.FredokaOne
-    btn.TextSize = 16
-    btn.TextColor3 = Color3.new(1, 1, 1)
-    btn.AutoButtonColor = false
-    Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 6)
-    local stroke = Instance.new("UIStroke", btn); stroke.Color = Color3.fromRGB(0, 0, 0); stroke.Thickness = 1.2
-    btn.MouseEnter:Connect(function() btn.BackgroundColor3 = color:lerp(Color3.new(1,1,1), 0.2) end)
-    btn.MouseLeave:Connect(function() btn.BackgroundColor3 = color end)
-    btn.Parent = frame
-    return btn
-end
+    local petInfo = Instance.new("TextLabel", frame)
+    petInfo.Text = "Equipped Pet: [None]"
+    petInfo.Font = Enum.Font.Gotham
+    petInfo.TextSize = 16
+    petInfo.TextColor3 = Color3.fromRGB(255, 255, 150)
+    petInfo.BackgroundTransparency = 1
+    petInfo.Position = UDim2.new(0, 0, 0, 30)
+    petInfo.Size = UDim2.new(1, 0, 0, 25)
+    petInfo.TextScaled = true
+    petInfo.TextWrapped = true
 
-local button = createStyledButton("Set Age to 50", 60, Color3.fromRGB(0, 170, 255))
-
-local closeAgeChanger = Instance.new("TextButton", frame)
-closeAgeChanger.Text = "X"; closeAgeChanger.Size = UDim2.new(0, 20, 0, 20); closeAgeChanger.Position = UDim2.new(1, -25, 0, 5)
-closeAgeChanger.BackgroundColor3 = Color3.fromRGB(255,0,0); closeAgeChanger.Parent = frame
-closeAgeChanger.MouseButton1Click:Connect(function() screenGui:Destroy() end)
-
-local function getEquippedPetTool()
-    character = player.Character or player.CharacterAdded:Wait()
-    for _, child in pairs(character:GetChildren()) do
-        if child:IsA("Tool") and child.Name:find("Age") then return child end
+    local function createStyledButton(text, yPos, color)
+        local btn = Instance.new("TextButton")
+        btn.Size = UDim2.new(0.9, 0, 0, 35)
+        btn.Position = UDim2.new(0.05, 0, 0, yPos)
+        btn.BackgroundColor3 = Color3.fromRGB(40, 43, 74)
+        btn.Text = text
+        btn.Font = Enum.Font.FredokaOne
+        btn.TextSize = 16
+        btn.TextColor3 = Color3.new(1, 1, 1)
+        btn.AutoButtonColor = false
+        Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 6)
+        local stroke = Instance.new("UIStroke", btn); stroke.Color = Color3.fromRGB(0, 0, 0); stroke.Thickness = 1.2
+        btn.MouseEnter:Connect(function() btn.BackgroundColor3 = color:lerp(Color3.new(1,1,1), 0.2) end)
+        btn.MouseLeave:Connect(function() btn.BackgroundColor3 = color end)
+        btn.Parent = frame
+        return btn
     end
-    return nil
-end
 
-local function updateGUI()
-    local pet = getEquippedPetTool()
-    if pet then petInfo.Text = "Equipped Pet: " .. pet.Name else petInfo.Text = "Equipped Pet: [None]" end
-end
+    local button = createStyledButton("Set Age to 50", 60, Color3.fromRGB(0, 170, 255))
+    
+    local closeAgeChanger = Instance.new("TextButton", frame)
+    closeAgeChanger.Text = "X"; closeAgeChanger.Size = UDim2.new(0, 20, 0, 20); closeAgeChanger.Position = UDim2.new(1, -25, 0, 5)
+    closeAgeChanger.BackgroundColor3 = Color3.fromRGB(255,0,0); closeAgeChanger.Parent = frame
+    closeAgeChanger.MouseButton1Click:Connect(function() screenGui:Destroy() end)
 
-button.MouseButton1Click:Connect(function()
-    local tool = getEquippedPetTool()
-    if tool then
-        for i = 20, 1, -1 do button.Text = "Changing Age in " .. i .. "..."; wait(1) end
-        local newName = tool.Name:gsub("%[Age%s%d+%]", "[Age 50]"); tool.Name = newName
-        petInfo.Text = "Equipped Pet: " .. tool.Name; button.Text = "Set Age to 50"
-    else
-        button.Text = "No Pet Equipped!"; wait(2); button.Text = "Set Age to 50"
+    local function getEquippedPetTool()
+        character = player.Character or player.CharacterAdded:Wait()
+        for _, child in pairs(character:GetChildren()) do
+            if child:IsA("Tool") and child.Name:find("Age") then return child end
+        end
+        return nil
     end
-end)
 
-task.spawn(function() while task.wait(1) do if not screenGui.Parent then break end; updateGUI() end end)
+    local function updateGUI()
+        local pet = getEquippedPetTool()
+        if pet then petInfo.Text = "Equipped Pet: " .. pet.Name else petInfo.Text = "Equipped Pet: [None]" end
+    end
+
+    button.MouseButton1Click:Connect(function()
+        local tool = getEquippedPetTool()
+        if tool then
+            for i = 20, 1, -1 do button.Text = "Changing Age in " .. i .. "..."; wait(1) end
+            local newName = tool.Name:gsub("%[Age%s%d+%]", "[Age 50]"); tool.Name = newName
+            petInfo.Text = "Equipped Pet: " .. tool.Name; button.Text = "Set Age to 50"
+        else
+            button.Text = "No Pet Equipped!"; wait(2); button.Text = "Set Age to 50"
+        end
+    end)
+
+    task.spawn(function() while task.wait(1) do if not screenGui.Parent then break end; updateGUI() end end)
 end
+
 -- ========================================================== --
 -- SCRIPT 2: PET MUTATION FINDER
 -- ========================================================== --
 local function runPetMutationFinder()
--- Credit: By Jaradd
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-local PlayerGui = player:WaitForChild("PlayerGui")
-local Workspace = game:GetService("Workspace")
-local TweenService = game:GetService("TweenService")
-code
-Code
-local mutations = {"Shiny", "Inverted", "Frozen", "Windy", "Golden", "Mega", "Tiny", "Tranquil", "IronSkin", "Radiant", "Rainbow", "Shocked", "Ascended"}
-local currentMutation = mutations[math.random(#mutations)]
-local espVisible = true
+    -- Credit: By Jaradd
+    local Players = game:GetService("Players")
+    local player = Players.LocalPlayer
+    local PlayerGui = player:WaitForChild("PlayerGui")
+    local Workspace = game:GetService("Workspace")
+    local TweenService = game:GetService("TweenService")
 
-local gui = Instance.new("ScreenGui"); gui.Name = "PetMutationFinder"; gui.ResetOnSpawn = false; gui.Parent = PlayerGui
+    local mutations = {"Shiny", "Inverted", "Frozen", "Windy", "Golden", "Mega", "Tiny", "Tranquil", "IronSkin", "Radiant", "Rainbow", "Shocked", "Ascended"}
+    local currentMutation = mutations[math.random(#mutations)]
+    local espVisible = true
 
-local frame = Instance.new("Frame"); frame.Size = UDim2.new(0, 220, 0, 185); frame.Position = UDim2.new(0.4, 0, 0.4, 0)
-frame.BackgroundColor3 = Color3.fromRGB(50, 50, 50); frame.BorderColor3 = Color3.fromRGB(100, 100, 100)
-frame.BorderSizePixel = 2; frame.Active = true; frame.Draggable = true; frame.Parent = gui
-Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 12)
-Instance.new("UIStroke", frame).Color = Color3.fromRGB(120, 120, 120)
+    local gui = Instance.new("ScreenGui"); gui.Name = "PetMutationFinder"; gui.ResetOnSpawn = false; gui.Parent = PlayerGui
 
-local title = Instance.new("TextLabel", frame); title.Size = UDim2.new(1, 0, 0, 35); title.Text = "🔬 Pet Mutation Finder"
-title.TextColor3 = Color3.fromRGB(230, 230, 230); title.BackgroundTransparency = 1; title.Font = Enum.Font.GothamBold; title.TextSize = 18
+    local frame = Instance.new("Frame"); frame.Size = UDim2.new(0, 220, 0, 185); frame.Position = UDim2.new(0.4, 0, 0.4, 0)
+    frame.BackgroundColor3 = Color3.fromRGB(50, 50, 50); frame.BorderColor3 = Color3.fromRGB(100, 100, 100)
+    frame.BorderSizePixel = 2; frame.Active = true; frame.Draggable = true; frame.Parent = gui
+    Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 12)
+    Instance.new("UIStroke", frame).Color = Color3.fromRGB(120, 120, 120)
 
-local closeMutationFinder = Instance.new("TextButton", frame)
-closeMutationFinder.Text = "X"; closeMutationFinder.Size = UDim2.new(0, 20, 0, 20); closeMutationFinder.Position = UDim2.new(1, -25, 0, 5)
-closeMutationFinder.BackgroundColor3 = Color3.fromRGB(255,0,0); closeMutationFinder.Parent = frame
-closeMutationFinder.MouseButton1Click:Connect(function() gui:Destroy() end)
+    local title = Instance.new("TextLabel", frame); title.Size = UDim2.new(1, 0, 0, 35); title.Text = "🔬 Pet Mutation Finder"
+    title.TextColor3 = Color3.fromRGB(230, 230, 230); title.BackgroundTransparency = 1; title.Font = Enum.Font.GothamBold; title.TextSize = 18
+    
+    local closeMutationFinder = Instance.new("TextButton", frame)
+    closeMutationFinder.Text = "X"; closeMutationFinder.Size = UDim2.new(0, 20, 0, 20); closeMutationFinder.Position = UDim2.new(1, -25, 0, 5)
+    closeMutationFinder.BackgroundColor3 = Color3.fromRGB(255,0,0); closeMutationFinder.Parent = frame
+    closeMutationFinder.MouseButton1Click:Connect(function() gui:Destroy() end)
 
-local function createButton(text, yPos, color)
-    local btn = Instance.new("TextButton"); btn.Size = UDim2.new(0.9, 0, 0, 35); btn.Position = UDim2.new(0.05, 0, 0, yPos); btn.BackgroundColor3 = color
-    btn.Text = text; btn.Font = Enum.Font.GothamMedium; btn.TextSize = 16; btn.TextColor3 = Color3.new(0.9, 0.9, 0.9); btn.AutoButtonColor = false
-    Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 6); local stroke = Instance.new("UIStroke", btn); stroke.Color = Color3.fromRGB(80, 80, 80); stroke.Thickness = 1.2
-    btn.MouseEnter:Connect(function() TweenService:Create(btn, TweenInfo.new(0.2), {BackgroundColor3 = color:Lerp(Color3.new(0.7, 0.7, 0.7), 0.2)}):Play() end)
-    btn.MouseLeave:Connect(function() TweenService:Create(btn, TweenInfo.new(0.2), {BackgroundColor3 = color}):Play() end)
-    btn.Parent = frame; return btn
+    local function createButton(text, yPos, color)
+        local btn = Instance.new("TextButton"); btn.Size = UDim2.new(0.9, 0, 0, 35); btn.Position = UDim2.new(0.05, 0, 0, yPos); btn.BackgroundColor3 = color
+        btn.Text = text; btn.Font = Enum.Font.GothamMedium; btn.TextSize = 16; btn.TextColor3 = Color3.new(0.9, 0.9, 0.9); btn.AutoButtonColor = false
+        Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 6); local stroke = Instance.new("UIStroke", btn); stroke.Color = Color3.fromRGB(80, 80, 80); stroke.Thickness = 1.2
+        btn.MouseEnter:Connect(function() TweenService:Create(btn, TweenInfo.new(0.2), {BackgroundColor3 = color:Lerp(Color3.new(0.7, 0.7, 0.7), 0.2)}):Play() end)
+        btn.MouseLeave:Connect(function() TweenService:Create(btn, TweenInfo.new(0.2), {BackgroundColor3 = color}):Play() end)
+        btn.Parent = frame; return btn
+    end
+
+    local gray1 = Color3.fromRGB(100, 100, 100); local gray2 = Color3.fromRGB(120, 120, 120)
+    local reroll = createButton("☀️ roll Mutation ☀️", 45, gray1); local toggle = createButton("☀️ Turn on/off ☀️", 90, gray2)
+    local credit = Instance.new("TextLabel", frame); credit.Size = UDim2.new(1, 0, 0, 20); credit.Position = UDim2.new(0, 0, 1, -20)
+    credit.Text = "Made by Jaradd"; credit.TextColor3 = Color3.fromRGB(180, 180, 180); credit.BackgroundTransparency = 1; credit.Font = Enum.Font.Gotham; credit.TextSize = 13
+
+    local function findMachine()
+        for _, obj in pairs(Workspace:GetDescendants()) do if obj:IsA("Model") and obj.Name:lower():find("mutation") then return obj end end
+    end
+    local machine = findMachine()
+    if not machine or not machine:FindFirstChildWhichIsA("BasePart") then warn("Pet Mutation Machine not found."); return end
+    local basePart = machine:FindFirstChildWhichIsA("BasePart")
+
+    local espGui = Instance.new("BillboardGui", basePart); espGui.Name = "MutationESP"; espGui.Adornee = basePart
+    espGui.Size = UDim2.new(0, 200, 0, 40); espGui.StudsOffset = Vector3.new(0, 3, 0); espGui.AlwaysOnTop = true
+    local espLabel = Instance.new("TextLabel", espGui); espLabel.Size = UDim2.new(1, 0, 1, 0); espLabel.BackgroundTransparency = 1; espLabel.Font = Enum.Font.GothamBold
+    espLabel.TextSize = 24; espLabel.TextStrokeTransparency = 0.3; espLabel.TextStrokeColor3 = Color3.fromRGB(40, 40, 40); espLabel.Text = currentMutation; espLabel.TextColor3 = Color3.fromRGB(180, 180, 180)
+
+    local function animateMutationReroll()
+        reroll.Text = "⏳ Rerolling..."; local duration = 2; local interval = 0.1
+        for i = 1, math.floor(duration / interval) do espLabel.Text = mutations[math.random(#mutations)]; wait(interval) end
+        currentMutation = mutations[math.random(#mutations)]; espLabel.Text = currentMutation; reroll.Text = "🎲 Mutation Reroll"
+    end
+
+    toggle.MouseButton1Click:Connect(function() espVisible = not espVisible; espGui.Enabled = espVisible end)
+    reroll.MouseButton1Click:Connect(animateMutationReroll)
 end
 
-local gray1 = Color3.fromRGB(100, 100, 100); local gray2 = Color3.fromRGB(120, 120, 120)
-local reroll = createButton("☀️ roll Mutation ☀️", 45, gray1); local toggle = createButton("☀️ Turn on/off ☀️", 90, gray2)
-local credit = Instance.new("TextLabel", frame); credit.Size = UDim2.new(1, 0, 0, 20); credit.Position = UDim2.new(0, 0, 1, -20)
-credit.Text = "Made by Jaradd"; credit.TextColor3 = Color3.fromRGB(180, 180, 180); credit.BackgroundTransparency = 1; credit.Font = Enum.Font.Gotham; credit.TextSize = 13
 
-local function findMachine()
-    for _, obj in pairs(Workspace:GetDescendants()) do if obj:IsA("Model") and obj.Name:lower():find("mutation") then return obj end end
-end
-local machine = findMachine()
-if not machine or not machine:FindFirstChildWhichIsA("BasePart") then warn("Pet Mutation Machine not found."); return end
-local basePart = machine:FindFirstChildWhichIsA("BasePart")
-
-local espGui = Instance.new("BillboardGui", basePart); espGui.Name = "MutationESP"; espGui.Adornee = basePart
-espGui.Size = UDim2.new(0, 200, 0, 40); espGui.StudsOffset = Vector3.new(0, 3, 0); espGui.AlwaysOnTop = true
-local espLabel = Instance.new("TextLabel", espGui); espLabel.Size = UDim2.new(1, 0, 1, 0); espLabel.BackgroundTransparency = 1; espLabel.Font = Enum.Font.GothamBold
-espLabel.TextSize = 24; espLabel.TextStrokeTransparency = 0.3; espLabel.TextStrokeColor3 = Color3.fromRGB(40, 40, 40); espLabel.Text = currentMutation; espLabel.TextColor3 = Color3.fromRGB(180, 180, 180)
-
-local function animateMutationReroll()
-    reroll.Text = "⏳ Rerolling..."; local duration = 2; local interval = 0.1
-    for i = 1, math.floor(duration / interval) do espLabel.Text = mutations[math.random(#mutations)]; wait(interval) end
-    currentMutation = mutations[math.random(#mutations)]; espLabel.Text = currentMutation; reroll.Text = "🎲 Mutation Reroll"
-end
-
-toggle.MouseButton1Click:Connect(function() espVisible = not espVisible; espGui.Enabled = espVisible end)
-reroll.MouseButton1Click:Connect(animateMutationReroll)
-end
 -- ========================================================== --
 -- SCRIPT 3: PET DUPLICATOR
 -- ========================================================== --
 local function runPetDuplicator()
--- Credit: Made by WhossJaradd
-local Players = game:GetService("Players"); local TweenService = game:GetService("TweenService")
-local player = Players.LocalPlayer; local character = player.Character or player.CharacterAdded:Wait()
-local screenGui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui")); screenGui.Name = "JaraddPetDuplicator"; screenGui.ResetOnSpawn = false; screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-local frame = Instance.new("Frame", screenGui); frame.Size = UDim2.new(0, 300, 0, 160); frame.Position = UDim2.new(0.5, -150, 0.5, -80)
-frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20); frame.Active = true; frame.Draggable = true; frame.Name = "PetDuplicateFrame"
-Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 10)
-local title = Instance.new("TextLabel", frame); title.Text = "Pet Duplicator"; title.Font = Enum.Font.FredokaOne; title.TextSize = 20; title.TextColor3 = Color3.fromRGB(255, 255, 255); title.BackgroundTransparency = 1; title.Size = UDim2.new(1, 0, 0, 30); title.Position = UDim2.new(0, 0, 0, 5)
-local closeButton = Instance.new("TextButton", frame); closeButton.Text = "X"; closeButton.Font = Enum.Font.FredokaOne; closeButton.TextSize = 18; closeButton.TextColor3 = Color3.fromRGB(255, 255, 255); closeButton.BackgroundColor3 = Color3.fromRGB(170, 0, 0); closeButton.Size = UDim2.new(0, 28, 0, 28); closeButton.Position = UDim2.new(1, -34, 0, 6); Instance.new("UICorner", closeButton)
-closeButton.MouseButton1Click:Connect(function() screenGui:Destroy() end)
-local petInfo = Instance.new("TextLabel", frame); petInfo.Text = "Equipped Pet: [None]"; petInfo.Font = Enum.Font.FredokaOne; petInfo.TextSize = 16; petInfo.TextColor3 = Color3.fromRGB(255, 255, 160); petInfo.BackgroundTransparency = 1; petInfo.Position = UDim2.new(0, 12, 0, 40); petInfo.Size = UDim2.new(1, -24, 0, 24); petInfo.TextXAlignment = Enum.TextXAlignment.Left
-local dupeButton = Instance.new("TextButton", frame); dupeButton.Text = "Duplicate Pet"; dupeButton.Font = Enum.Font.FredokaOne; dupeButton.TextSize = 16; dupeButton.TextColor3 = Color3.fromRGB(255, 255, 255); dupeButton.BackgroundColor3 = Color3.fromRGB(160, 100, 255); dupeButton.Size = UDim2.new(0, 220, 0, 36); dupeButton.Position = UDim2.new(0.5, -110, 0, 76); Instance.new("UICorner", dupeButton)
-local dupeGrad = Instance.new("UIGradient", dupeButton); dupeGrad.Color = ColorSequence.new{ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)), ColorSequenceKeypoint.new(1, Color3.fromRGB(160, 100, 255))}; dupeGrad.Rotation = 90
-local footer = Instance.new("TextLabel", frame); footer.Text = "Made by WhossJaradd"; footer.Font = Enum.Font.FredokaOne; footer.TextSize = 13; footer.TextColor3 = Color3.fromRGB(180, 180, 180); footer.BackgroundTransparency = 1; footer.Size = UDim2.new(1, 0, 0, 20); footer.Position = UDim2.new(0, 0, 1, -20)
-local function getEquippedPetTool() character = player.Character or player.CharacterAdded:Wait(); for _, tool in pairs(character:GetChildren()) do if tool:IsA("Tool") and tool:FindFirstChild("Handle") then return tool end end; return nil end
-local function updateGUI() local pet = getEquippedPetTool(); if pet then petInfo.Text = "Equipped Pet: " .. pet.Name else petInfo.Text = "Equipped Pet: [None]" end end
-local function createLoadingBar() local loadingFrame = Instance.new("Frame", screenGui); loadingFrame.AnchorPoint = Vector2.new(0.5, 0.5); loadingFrame.Position = UDim2.new(0.5, 0, 0.5, 0); loadingFrame.Size = UDim2.new(0, 260, 0, 70); loadingFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30); loadingFrame.ZIndex = 20; Instance.new("UICorner", loadingFrame); local label = Instance.new("TextLabel", loadingFrame); label.Text = "Duplicating pet, please wait..."; label.Font = Enum.Font.FredokaOne; label.TextSize = 16; label.TextColor3 = Color3.fromRGB(255, 255, 255); label.BackgroundTransparency = 1; label.Size = UDim2.new(1, 0, 0, 30); label.Position = UDim2.new(0, 0, 0, 6); label.ZIndex = 21; local barBG = Instance.new("Frame", loadingFrame); barBG.Position = UDim2.new(0.05, 0, 0.65, 0); barBG.Size = UDim2.new(0.9, 0, 0.2, 0); barBG.BackgroundColor3 = Color3.fromRGB(60, 60, 60); barBG.ZIndex = 21; Instance.new("UICorner", barBG); local bar = Instance.new("Frame", barBG); bar.BackgroundColor3 = Color3.fromRGB(130, 100, 255); bar.Size = UDim2.new(0, 0, 1, 0); bar.ZIndex = 22; Instance.new("UICorner", bar); local sound = Instance.new("Sound", loadingFrame); sound.SoundId = "rbxassetid://9118823106"; sound.Volume = 1; sound:Play(); return loadingFrame, bar, sound end
-local function showErrorMessage(text) local errorLabel = Instance.new("TextLabel", screenGui); errorLabel.AnchorPoint = Vector2.new(0.5, 0.5); errorLabel.Position = UDim2.new(0.5, 0, 0.45, 0); errorLabel.Size = UDim2.new(0, 250, 0, 40); errorLabel.BackgroundColor3 = Color3.fromRGB(170, 0, 0); errorLabel.Text = text; errorLabel.Font = Enum.Font.FredokaOne; errorLabel.TextSize = 16; errorLabel.TextColor3 = Color3.fromRGB(255, 255, 255); errorLabel.ZIndex = 30; Instance.new("UICorner", errorLabel); task.delay(2.5, function() errorLabel:Destroy() end) end
-dupeButton.MouseButton1Click:Connect(function() local equipped = getEquippedPetTool(); if not equipped then showErrorMessage("No Equipped Pet Detected"); return end; local loader, bar, sound = createLoadingBar(); local duration = 8; local tweenInfo = TweenInfo.new(duration, Enum.EasingStyle.Linear); local tween = TweenService:Create(bar, tweenInfo, {Size = UDim2.new(1, 0, 1, 0)}); tween:Play(); task.wait(duration); loader:Destroy(); if sound then sound:Destroy() end; local clone = equipped:Clone(); clone.Name = equipped.Name; clone.Parent = player.Backpack; dupeButton.Text = "Pet Duplicated!"; task.wait(2); dupeButton.Text = "Duplicate Pet" end)
-task.spawn(function() while true do if not screenGui.Parent then break end; updateGUI(); task.wait(1) end end)
+    -- Credit: Made by WhossJaradd
+    local Players = game:GetService("Players"); local TweenService = game:GetService("TweenService")
+    local player = Players.LocalPlayer; local character = player.Character or player.CharacterAdded:Wait()
+    local screenGui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui")); screenGui.Name = "JaraddPetDuplicator"; screenGui.ResetOnSpawn = false; screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    local frame = Instance.new("Frame", screenGui); frame.Size = UDim2.new(0, 300, 0, 160); frame.Position = UDim2.new(0.5, -150, 0.5, -80)
+    frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20); frame.Active = true; frame.Draggable = true; frame.Name = "PetDuplicateFrame"
+    Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 10)
+    local title = Instance.new("TextLabel", frame); title.Text = "Pet Duplicator"; title.Font = Enum.Font.FredokaOne; title.TextSize = 20; title.TextColor3 = Color3.fromRGB(255, 255, 255); title.BackgroundTransparency = 1; title.Size = UDim2.new(1, 0, 0, 30); title.Position = UDim2.new(0, 0, 0, 5)
+    local closeButton = Instance.new("TextButton", frame); closeButton.Text = "X"; closeButton.Font = Enum.Font.FredokaOne; closeButton.TextSize = 18; closeButton.TextColor3 = Color3.fromRGB(255, 255, 255); closeButton.BackgroundColor3 = Color3.fromRGB(170, 0, 0); closeButton.Size = UDim2.new(0, 28, 0, 28); closeButton.Position = UDim2.new(1, -34, 0, 6); Instance.new("UICorner", closeButton)
+    closeButton.MouseButton1Click:Connect(function() screenGui:Destroy() end)
+    local petInfo = Instance.new("TextLabel", frame); petInfo.Text = "Equipped Pet: [None]"; petInfo.Font = Enum.Font.FredokaOne; petInfo.TextSize = 16; petInfo.TextColor3 = Color3.fromRGB(255, 255, 160); petInfo.BackgroundTransparency = 1; petInfo.Position = UDim2.new(0, 12, 0, 40); petInfo.Size = UDim2.new(1, -24, 0, 24); petInfo.TextXAlignment = Enum.TextXAlignment.Left
+    local dupeButton = Instance.new("TextButton", frame); dupeButton.Text = "Duplicate Pet"; dupeButton.Font = Enum.Font.FredokaOne; dupeButton.TextSize = 16; dupeButton.TextColor3 = Color3.fromRGB(255, 255, 255); dupeButton.BackgroundColor3 = Color3.fromRGB(160, 100, 255); dupeButton.Size = UDim2.new(0, 220, 0, 36); dupeButton.Position = UDim2.new(0.5, -110, 0, 76); Instance.new("UICorner", dupeButton)
+    local dupeGrad = Instance.new("UIGradient", dupeButton); dupeGrad.Color = ColorSequence.new{ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)), ColorSequenceKeypoint.new(1, Color3.fromRGB(160, 100, 255))}; dupeGrad.Rotation = 90
+    local footer = Instance.new("TextLabel", frame); footer.Text = "Made by WhossJaradd"; footer.Font = Enum.Font.FredokaOne; footer.TextSize = 13; footer.TextColor3 = Color3.fromRGB(180, 180, 180); footer.BackgroundTransparency = 1; footer.Size = UDim2.new(1, 0, 0, 20); footer.Position = UDim2.new(0, 0, 1, -20)
+    local function getEquippedPetTool() character = player.Character or player.CharacterAdded:Wait(); for _, tool in pairs(character:GetChildren()) do if tool:IsA("Tool") and tool:FindFirstChild("Handle") then return tool end end; return nil end
+    local function updateGUI() local pet = getEquippedPetTool(); if pet then petInfo.Text = "Equipped Pet: " .. pet.Name else petInfo.Text = "Equipped Pet: [None]" end end
+    local function createLoadingBar() local loadingFrame = Instance.new("Frame", screenGui); loadingFrame.AnchorPoint = Vector2.new(0.5, 0.5); loadingFrame.Position = UDim2.new(0.5, 0, 0.5, 0); loadingFrame.Size = UDim2.new(0, 260, 0, 70); loadingFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30); loadingFrame.ZIndex = 20; Instance.new("UICorner", loadingFrame); local label = Instance.new("TextLabel", loadingFrame); label.Text = "Duplicating pet, please wait..."; label.Font = Enum.Font.FredokaOne; label.TextSize = 16; label.TextColor3 = Color3.fromRGB(255, 255, 255); label.BackgroundTransparency = 1; label.Size = UDim2.new(1, 0, 0, 30); label.Position = UDim2.new(0, 0, 0, 6); label.ZIndex = 21; local barBG = Instance.new("Frame", loadingFrame); barBG.Position = UDim2.new(0.05, 0, 0.65, 0); barBG.Size = UDim2.new(0.9, 0, 0.2, 0); barBG.BackgroundColor3 = Color3.fromRGB(60, 60, 60); barBG.ZIndex = 21; Instance.new("UICorner", barBG); local bar = Instance.new("Frame", barBG); bar.BackgroundColor3 = Color3.fromRGB(130, 100, 255); bar.Size = UDim2.new(0, 0, 1, 0); bar.ZIndex = 22; Instance.new("UICorner", bar); local sound = Instance.new("Sound", loadingFrame); sound.SoundId = "rbxassetid://9118823106"; sound.Volume = 1; sound:Play(); return loadingFrame, bar, sound end
+    local function showErrorMessage(text) local errorLabel = Instance.new("TextLabel", screenGui); errorLabel.AnchorPoint = Vector2.new(0.5, 0.5); errorLabel.Position = UDim2.new(0.5, 0, 0.45, 0); errorLabel.Size = UDim2.new(0, 250, 0, 40); errorLabel.BackgroundColor3 = Color3.fromRGB(170, 0, 0); errorLabel.Text = text; errorLabel.Font = Enum.Font.FredokaOne; errorLabel.TextSize = 16; errorLabel.TextColor3 = Color3.fromRGB(255, 255, 255); errorLabel.ZIndex = 30; Instance.new("UICorner", errorLabel); task.delay(2.5, function() errorLabel:Destroy() end) end
+    dupeButton.MouseButton1Click:Connect(function() local equipped = getEquippedPetTool(); if not equipped then showErrorMessage("No Equipped Pet Detected"); return end; local loader, bar, sound = createLoadingBar(); local duration = 8; local tweenInfo = TweenInfo.new(duration, Enum.EasingStyle.Linear); local tween = TweenService:Create(bar, tweenInfo, {Size = UDim2.new(1, 0, 1, 0)}); tween:Play(); task.wait(duration); loader:Destroy(); if sound then sound:Destroy() end; local clone = equipped:Clone(); clone.Name = equipped.Name; clone.Parent = player.Backpack; dupeButton.Text = "Pet Duplicated!"; task.wait(2); dupeButton.Text = "Duplicate Pet" end)
+    task.spawn(function() while true do if not screenGui.Parent then break end; updateGUI(); task.wait(1) end end)
 end
+
 -- ========================================================== --
 -- SCRIPT 4: TRADE FREEZER
 -- ========================================================== --
 local function runTradeFreezer()
--- Credit: By JARADD
-local Players = game:GetService("Players"); local UserInputService = game:GetService("UserInputService"); local TweenService = game:GetService("TweenService"); local CoreGui = game:GetService("CoreGui")
-local localPlayer = Players.LocalPlayer; local screenGui = Instance.new("ScreenGui"); screenGui.Name = "MainGUIs"; screenGui.Parent = CoreGui; screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling; screenGui.ResetOnSpawn = false
-local selectedPlayer = nil
-local notificationFrame = Instance.new("Frame"); notificationFrame.Name = "NotificationFrame"; notificationFrame.Parent = screenGui; notificationFrame.Size = UDim2.new(0, 400, 0, 50); notificationFrame.Position = UDim2.new(0.5, -200, 0, -60); notificationFrame.BackgroundColor3 = Color3.fromRGB(39, 42, 44); notificationFrame.BackgroundTransparency = 0.1; notificationFrame.BorderSizePixel = 0; notificationFrame.Visible = false; local notifCorner = Instance.new("UICorner"); notifCorner.CornerRadius = UDim.new(0, 8); notifCorner.Parent = notificationFrame; local notificationLabel = Instance.new("TextLabel"); notificationLabel.Name = "NotificationLabel"; notificationLabel.Parent = notificationFrame; notificationLabel.Size = UDim2.new(1, 0, 1, 0); notificationLabel.BackgroundTransparency = 1; notificationLabel.TextColor3 = Color3.fromRGB(255, 255, 255); notificationLabel.Font = Enum.Font.SourceSansBold; notificationLabel.Text = "Notification Text"; notificationLabel.TextSize = 18
-local mainFrame = Instance.new("Frame"); mainFrame.Name = "MainFrame"; mainFrame.Parent = screenGui; mainFrame.Size = UDim2.new(0, 350, 0, 120); mainFrame.Position = UDim2.new(0.5, -175, 0.5, -60); mainFrame.BackgroundColor3 = Color3.fromRGB(39, 42, 44); mainFrame.BackgroundTransparency = 1; mainFrame.BorderSizePixel = 0; mainFrame.Visible = false; mainFrame.Active = true; mainFrame.Draggable = true; local frameCorner = Instance.new("UICorner"); frameCorner.CornerRadius = UDim.new(0, 12); frameCorner.Parent = mainFrame
-local shadowFrame = Instance.new("Frame"); shadowFrame.Name = "Shadow"; shadowFrame.Parent = mainFrame; shadowFrame.Position = UDim2.new(0, 0, 0, 4); shadowFrame.Size = UDim2.new(1, 0, 1, 0); shadowFrame.BackgroundColor3 = Color3.fromRGB(20, 22, 23); shadowFrame.BackgroundTransparency = 1; shadowFrame.ZIndex = -1; local shadowCorner = Instance.new("UICorner"); shadowCorner.CornerRadius = UDim.new(0, 12); shadowCorner.Parent = shadowFrame
-local titleLabel = Instance.new("TextLabel"); titleLabel.Parent = mainFrame; titleLabel.Size = UDim2.new(1, 0, 0, 40); titleLabel.Position = UDim2.new(0.5, 0, 0, 25); titleLabel.AnchorPoint = Vector2.new(0.5, 0.5); titleLabel.BackgroundTransparency = 1; titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255); titleLabel.TextTransparency = 1; titleLabel.Font = Enum.Font.SourceSansBold; titleLabel.Text = "TRADE FREEZER"; titleLabel.TextSize = 26
-local creditLabel = Instance.new("TextLabel"); creditLabel.Name = "CreditLabel"; creditLabel.Parent = mainFrame; creditLabel.Size = UDim2.new(1, 0, 0, 20); creditLabel.Position = UDim2.new(0.5, 0, 0, 45); creditLabel.AnchorPoint = Vector2.new(0.5, 0.5); creditLabel.BackgroundTransparency = 1; creditLabel.Font = Enum.Font.SourceSansBold; creditLabel.TextColor3 = Color3.fromRGB(200, 200, 200); creditLabel.Text = "By JARADD"; creditLabel.TextSize = 14; creditLabel.TextTransparency = 1
-local playerListButton = Instance.new("TextButton"); playerListButton.Name = "PlayerListButton"; playerListButton.Parent = mainFrame; playerListButton.Size = UDim2.new(0, 310, 0, 40); playerListButton.Position = UDim2.new(0.5, 0, 0, 80); playerListButton.AnchorPoint = Vector2.new(0.5, 0.5); playerListButton.BackgroundColor3 = Color3.fromRGB(60, 63, 65); playerListButton.TextColor3 = Color3.fromRGB(220, 220, 220); playerListButton.Text = "Search for players..."; playerListButton.TextSize = 18; playerListButton.BackgroundTransparency = 1; playerListButton.TextTransparency = 1; local listButtonCorner = Instance.new("UICorner"); listButtonCorner.CornerRadius = UDim.new(0, 8); listButtonCorner.Parent = playerListButton
-local playerListFrame = Instance.new("ScrollingFrame"); playerListFrame.Name = "PlayerListFrame"; playerListFrame.Parent = mainFrame; playerListFrame.Size = UDim2.new(0, 310, 0, 130); playerListFrame.Position = UDim2.new(0.5, -155, 0, 105); playerListFrame.BackgroundColor3 = Color3.fromRGB(45, 48, 50); playerListFrame.BorderSizePixel = 0; playerListFrame.Visible = false; playerListFrame.ZIndex = 2; playerListFrame.ScrollBarThickness = 6; local listFrameCorner = Instance.new("UICorner"); listFrameCorner.CornerRadius = UDim.new(0, 8); listFrameCorner.Parent = playerListFrame; local listLayout = Instance.new("UIListLayout"); listLayout.Parent = playerListFrame; listLayout.SortOrder = Enum.SortOrder.Name; listLayout.Padding = UDim.new(0, 5); local playerTemplate = Instance.new("TextButton"); playerTemplate.Name = "PlayerTemplate"; playerTemplate.Size = UDim2.new(1, -10, 0, 30); playerTemplate.BackgroundColor3 = Color3.fromRGB(60, 63, 65); playerTemplate.TextColor3 = Color3.fromRGB(255, 255, 255); playerTemplate.Font = Enum.Font.SourceSansSemibold; playerTemplate.TextSize = 16; local templateCorner = Instance.new("UICorner"); templateCorner.CornerRadius = UDim.new(0, 6); templateCorner.Parent = playerTemplate
-local closeButton = Instance.new("TextButton"); closeButton.Parent = mainFrame; closeButton.Size = UDim2.new(0, 30, 0, 30); closeButton.Position = UDim2.new(1, -20, 0, 20); closeButton.AnchorPoint = Vector2.new(0.5, 0.5); closeButton.BackgroundColor3 = Color3.fromRGB(231, 76, 60); closeButton.TextColor3 = Color3.fromRGB(255, 255, 255); closeButton.Font = Enum.Font.SourceSansBold; closeButton.Text = "X"; closeButton.TextSize = 20; closeButton.BackgroundTransparency = 1; closeButton.TextTransparency = 1; local closeCorner = Instance.new("UICorner"); closeCorner.CornerRadius = UDim.new(0, 8); closeCorner.Parent = closeButton
-local sideFrame = Instance.new("Frame"); sideFrame.Name = "SideFrame"; sideFrame.Parent = screenGui; sideFrame.Size = UDim2.new(0, 250, 0, 295); sideFrame.BackgroundColor3 = Color3.fromRGB(39, 42, 44); sideFrame.BackgroundTransparency = 1; sideFrame.BorderSizePixel = 0; sideFrame.Visible = false; local sideFrameCorner = Instance.new("UICorner"); sideFrameCorner.CornerRadius = UDim.new(0, 10); sideFrameCorner.Parent = sideFrame
-local sideCloseButton = Instance.new("TextButton"); sideCloseButton.Parent = sideFrame; sideCloseButton.Size = UDim2.new(0, 25, 0, 25); sideCloseButton.Position = UDim2.new(1, -18, 0, 18); sideCloseButton.AnchorPoint = Vector2.new(0.5, 0.5); sideCloseButton.BackgroundColor3 = Color3.fromRGB(231, 76, 60); sideCloseButton.TextColor3 = Color3.fromRGB(255, 255, 255); sideCloseButton.Font = Enum.Font.SourceSansBold; sideCloseButton.Text = "X"; sideCloseButton.TextSize = 18; sideCloseButton.ZIndex = 2; sideCloseButton.BackgroundTransparency = 1; sideCloseButton.TextTransparency = 1; local sideCloseCorner = Instance.new("UICorner"); sideCloseCorner.CornerRadius = UDim.new(0, 6); sideCloseCorner.Parent = sideCloseButton
-local profilePicture = Instance.new("ImageLabel"); profilePicture.Name = "ProfilePicture"; profilePicture.Parent = sideFrame; profilePicture.Size = UDim2.new(0, 80, 0, 80); profilePicture.Position = UDim2.new(0.5, 0, 0, 15); profilePicture.AnchorPoint = Vector2.new(0.5, 0); profilePicture.BackgroundTransparency = 1; profilePicture.ImageTransparency = 1; local picCorner = Instance.new("UICorner"); picCorner.CornerRadius = UDim.new(1, 0); picCorner.Parent = profilePicture; local targetUsernameLabel = Instance.new("TextLabel"); targetUsernameLabel.Name = "TargetUsernameLabel"; targetUsernameLabel.Parent = sideFrame; targetUsernameLabel.Size = UDim2.new(1, -20, 0, 30); targetUsernameLabel.Position = UDim2.new(0.5, 0, 0, 105); targetUsernameLabel.AnchorPoint = Vector2.new(0.5, 0); targetUsernameLabel.BackgroundColor3 = Color3.fromRGB(44, 62, 80); targetUsernameLabel.TextColor3 = Color3.fromRGB(236, 240, 241); targetUsernameLabel.Font = Enum.Font.SourceSans; targetUsernameLabel.TextSize = 16; targetUsernameLabel.BackgroundTransparency = 1; targetUsernameLabel.TextTransparency = 1; local targetUserCorner = Instance.new("UICorner"); targetUserCorner.CornerRadius = UDim.new(0, 6); targetUserCorner.Parent = targetUsernameLabel; local buttonContainer = Instance.new("Frame"); buttonContainer.Parent = sideFrame; buttonContainer.Size = UDim2.new(1, -20, 0, 135); buttonContainer.Position = UDim2.new(0.5, 0, 1, -15); buttonContainer.AnchorPoint = Vector2.new(0.5, 1); buttonContainer.BackgroundTransparency = 1; local buttonLayout = Instance.new("UIListLayout"); buttonLayout.Parent = buttonContainer; buttonLayout.Padding = UDim.new(0, 10); buttonLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center; local sideAutoAcceptButton = Instance.new("TextButton"); sideAutoAcceptButton.Parent = buttonContainer; sideAutoAcceptButton.Size = UDim2.new(1, 0, 0, 35); sideAutoAcceptButton.BackgroundColor3 = Color3.fromRGB(22, 160, 133); sideAutoAcceptButton.TextColor3 = Color3.fromRGB(255, 255, 255); sideAutoAcceptButton.Font = Enum.Font.SourceSansBold; sideAutoAcceptButton.Text = "AUTO ACCEPT TRADE"; sideAutoAcceptButton.TextSize = 16; sideAutoAcceptButton.BackgroundTransparency = 1; sideAutoAcceptButton.TextTransparency = 1; local sideAcceptCorner = Instance.new("UICorner"); sideAcceptCorner.CornerRadius = UDim.new(0, 8); sideAcceptCorner.Parent = sideAutoAcceptButton; local sideFreezeButton = Instance.new("TextButton"); sideFreezeButton.Parent = buttonContainer; sideFreezeButton.Size = UDim2.new(1, 0, 0, 35); sideFreezeButton.BackgroundColor3 = Color3.fromRGB(26, 188, 156); sideFreezeButton.TextColor3 = Color3.fromRGB(255, 255, 255); sideFreezeButton.Font = Enum.Font.SourceSansBold; sideFreezeButton.Text = "FREEZE PLAYER SCREEN"; sideFreezeButton.TextSize = 16; sideFreezeButton.BackgroundTransparency = 1; sideFreezeButton.TextTransparency = 1; local sideFreezeCorner = Instance.new("UICorner"); sideFreezeCorner.CornerRadius = UDim.new(0, 8); sideFreezeCorner.Parent = sideFreezeButton; local sideAddPetsButton = Instance.new("TextButton"); sideAddPetsButton.Parent = buttonContainer; sideAddPetsButton.Size = UDim2.new(1, 0, 0, 35); sideAddPetsButton.BackgroundColor3 = Color3.fromRGB(44, 62, 80); sideAddPetsButton.TextColor3 = Color3.fromRGB(255, 255, 255); sideAddPetsButton.Font = Enum.Font.SourceSansBold; sideAddPetsButton.Text = "FORCE ADD PETS"; sideAddPetsButton.TextSize = 16; sideAddPetsButton.BackgroundTransparency = 1; sideAddPetsButton.TextTransparency = 1; local sideAddPetsCorner = Instance.new("UICorner"); sideAddPetsCorner.CornerRadius = UDim.new(0, 8); sideAddPetsCorner.Parent = sideAddPetsButton
-local timers = { autoAccept = {active = false}, freeze = {active = false}, addPets = {active = false} }; local timerColor = Color3.fromRGB(230, 126, 34); local tweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Sine, Enum.EasingDirection.Out); local mainFrameElements = {titleLabel, playerListButton, creditLabel, closeButton, shadowFrame}; local sideFrameElements = {sideCloseButton, profilePicture, targetUsernameLabel, sideAutoAcceptButton, sideFreezeButton, sideAddPetsButton}; local isAnimating = false; local notificationTween
-local function showNotification(message) if notificationTween and notificationTween.PlaybackState == Enum.PlaybackState.Playing then notificationTween:Cancel() end; notificationFrame.Position = UDim2.new(0.5, -200, 0, -60); notificationLabel.Text = message; notificationFrame.Visible = true; notificationTween = TweenService:Create(notificationFrame, TweenInfo.new(0.4, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Position = UDim2.new(0.5, -200, 0, 20)}); notificationTween:Play(); notificationTween.Completed:Wait(); wait(2.5); notificationTween = TweenService:Create(notificationFrame, TweenInfo.new(0.4, Enum.EasingStyle.Quint, Enum.EasingDirection.In), {Position = UDim2.new(0.5, -200, 0, -60)}); notificationTween:Play(); notificationTween.Completed:Wait(); notificationFrame.Visible = false end
-local function startHeadstartTimer(button, timerState, originalText, action) if timerState.active then timerState.active = false; showNotification("Action Canceled."); return end; timerState.active = true; spawn(function() local originalColor = button.BackgroundColor3; button.BackgroundColor3 = timerColor; for i = 20, 0, -0.1 do if not timerState.active then button.Text = originalText; button.BackgroundColor3 = originalColor; return end; button.Text = string.format("STARTING (%.1fs)", i); wait(0.1) end; if timerState.active then action(); button.Text = originalText; button.BackgroundColor3 = originalColor; timerState.active = false end end) end
-sideAutoAcceptButton.MouseButton1Click:Connect(function() if not selectedPlayer then return end; startHeadstartTimer(sideAutoAcceptButton, timers.autoAccept, "AUTO ACCEPT TRADE", function() local message = "ACTIVATED 'Auto Accept' on " .. selectedPlayer.Name; print(message); showNotification(message) end) end)
-sideFreezeButton.MouseButton1Click:Connect(function() if not selectedPlayer then return end; startHeadstartTimer(sideFreezeButton, timers.freeze, "FREEZE PLAYER SCREEN", function() local message = "ACTIVATED 'Freeze Screen' on " .. selectedPlayer.Name; print(message); showNotification(message) end) end)
-sideAddPetsButton.MouseButton1Click:Connect(function() if not selectedPlayer then return end; startHeadstartTimer(sideAddPetsButton, timers.addPets, "FORCE ADD PETS", function() local message = "ACTIVATED 'Force Add Pets' for " .. selectedPlayer.Name; print(message); showNotification(message) end) end)
-local function updatePlayerList() for _, child in ipairs(playerListFrame:GetChildren()) do if child:IsA("TextButton") then child:Destroy() end end; for _, player in ipairs(Players:GetPlayers()) do local newPlayerEntry = playerTemplate:Clone(); newPlayerEntry.Text = player.Name; newPlayerEntry.Parent = playerListFrame; newPlayerEntry.MouseButton1Click:Connect(function() setSidePanelVisible(true, player); playerListFrame.Visible = false; playerListButton.Text = player.Name end) end end
-local function fadeElements(elements, bgFrame, targetText, targetBg) TweenService:Create(bgFrame, tweenInfo, {BackgroundTransparency = targetBg}):Play(); for _, elem in ipairs(elements) do local props = {}; if elem:IsA("ImageLabel") then props.ImageTransparency = targetText end; if elem:IsA("TextLabel") or elem:IsA("TextButton") then props.TextTransparency = targetText; if elem:IsA("TextButton") then props.BackgroundTransparency = targetText end end; if elem.Name == "Shadow" then props.BackgroundTransparency = targetBg + 0.3 end; TweenService:Create(elem, tweenInfo, props):Play() end end
-local isSidePanelVisible = false
-function setSidePanelVisible(visible, playerObject) isSidePanelVisible = visible; sideFrame.Position = UDim2.new(mainFrame.Position.X.Scale, mainFrame.Position.X.Offset + 350 + 10, mainFrame.Position.Y.Scale, mainFrame.Position.Y.Offset); if visible and playerObject then selectedPlayer = playerObject; sideFrame.Visible = true; targetUsernameLabel.Text = playerObject.Name; local s, c = pcall(function() return Players:GetUserThumbnailAsync(playerObject.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size100x100) end); if s and c then profilePicture.Image = c else profilePicture.Image = "" end; fadeElements(sideFrameElements, sideFrame, 0, 0.2) else selectedPlayer = nil; playerListButton.Text = "Search for players..."; local mainTween = TweenService:Create(sideFrame, tweenInfo, {BackgroundTransparency = 1}); fadeElements(sideFrameElements, sideFrame, 1, 1); mainTween.Completed:Once(function() if not isSidePanelVisible then sideFrame.Visible = false end end) end end
-function setMainFrameVisible(visible) isAnimating = true; if visible then mainFrame.Visible = true; fadeElements(mainFrameElements, mainFrame, 0, 0.4) else playerListFrame.Visible = false; if isSidePanelVisible then setSidePanelVisible(false) end; fadeElements(mainFrameElements, mainFrame, 1, 1) end; delay(tweenInfo.Time, function() if not visible then mainFrame.Visible = false end; isAnimating = false end) end
-playerListButton.MouseButton1Click:Connect(function() if playerListFrame.Visible then playerListFrame.Visible = false else updatePlayerList(); playerListFrame.Visible = true end end)
-closeButton.MouseButton1Click:Connect(function() if isAnimating then return end; setMainFrameVisible(false); task.wait(0.4); screenGui:Destroy() end)
-sideCloseButton.MouseButton1Click:Connect(function() setSidePanelVisible(false) end)
-local function makeDraggable(guiObject) local dragging = false; local dragInput, dragStart, startPos, sideStartPos; guiObject.InputBegan:Connect(function(input) if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) and guiObject.Draggable then dragging, dragStart, startPos = true, input.Position, guiObject.Position; if isSidePanelVisible then sideStartPos = sideFrame.Position end; local connection; connection = input.Changed:Connect(function() if input.UserInputState == Enum.UserInputState.End then dragging = false; connection:Disconnect() end end) end end); guiObject.InputChanged:Connect(function(input) if (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then dragInput = input end end); UserInputService.InputChanged:Connect(function(input) if input == dragInput and dragging then local delta = input.Position - dragStart; guiObject.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y); if isSidePanelVisible and sideStartPos then sideFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X + 360, startPos.Y.Scale, startPos.Y.Offset + delta.Y) end end end) end
-makeDraggable(mainFrame); setMainFrameVisible(true); print("Trade Freezer by JARADD Loaded.")
+    -- Credit: By JARADD
+    local Players = game:GetService("Players"); local UserInputService = game:GetService("UserInputService"); local TweenService = game:GetService("TweenService"); local CoreGui = game:GetService("CoreGui")
+    local localPlayer = Players.LocalPlayer; local screenGui = Instance.new("ScreenGui"); screenGui.Name = "MainGUIs"; screenGui.Parent = CoreGui; screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling; screenGui.ResetOnSpawn = false
+    local selectedPlayer = nil
+    local notificationFrame = Instance.new("Frame"); notificationFrame.Name = "NotificationFrame"; notificationFrame.Parent = screenGui; notificationFrame.Size = UDim2.new(0, 400, 0, 50); notificationFrame.Position = UDim2.new(0.5, -200, 0, -60); notificationFrame.BackgroundColor3 = Color3.fromRGB(39, 42, 44); notificationFrame.BackgroundTransparency = 0.1; notificationFrame.BorderSizePixel = 0; notificationFrame.Visible = false; local notifCorner = Instance.new("UICorner"); notifCorner.CornerRadius = UDim.new(0, 8); notifCorner.Parent = notificationFrame; local notificationLabel = Instance.new("TextLabel"); notificationLabel.Name = "NotificationLabel"; notificationLabel.Parent = notificationFrame; notificationLabel.Size = UDim2.new(1, 0, 1, 0); notificationLabel.BackgroundTransparency = 1; notificationLabel.TextColor3 = Color3.fromRGB(255, 255, 255); notificationLabel.Font = Enum.Font.SourceSansBold; notificationLabel.Text = "Notification Text"; notificationLabel.TextSize = 18
+    local mainFrame = Instance.new("Frame"); mainFrame.Name = "MainFrame"; mainFrame.Parent = screenGui; mainFrame.Size = UDim2.new(0, 350, 0, 120); mainFrame.Position = UDim2.new(0.5, -175, 0.5, -60); mainFrame.BackgroundColor3 = Color3.fromRGB(39, 42, 44); mainFrame.BackgroundTransparency = 1; mainFrame.BorderSizePixel = 0; mainFrame.Visible = false; mainFrame.Active = true; mainFrame.Draggable = true; local frameCorner = Instance.new("UICorner"); frameCorner.CornerRadius = UDim.new(0, 12); frameCorner.Parent = mainFrame
+    local shadowFrame = Instance.new("Frame"); shadowFrame.Name = "Shadow"; shadowFrame.Parent = mainFrame; shadowFrame.Position = UDim2.new(0, 0, 0, 4); shadowFrame.Size = UDim2.new(1, 0, 1, 0); shadowFrame.BackgroundColor3 = Color3.fromRGB(20, 22, 23); shadowFrame.BackgroundTransparency = 1; shadowFrame.ZIndex = -1; local shadowCorner = Instance.new("UICorner"); shadowCorner.CornerRadius = UDim.new(0, 12); shadowCorner.Parent = shadowFrame
+    local titleLabel = Instance.new("TextLabel"); titleLabel.Parent = mainFrame; titleLabel.Size = UDim2.new(1, 0, 0, 40); titleLabel.Position = UDim2.new(0.5, 0, 0, 25); titleLabel.AnchorPoint = Vector2.new(0.5, 0.5); titleLabel.BackgroundTransparency = 1; titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255); titleLabel.TextTransparency = 1; titleLabel.Font = Enum.Font.SourceSansBold; titleLabel.Text = "TRADE FREEZER"; titleLabel.TextSize = 26
+    local creditLabel = Instance.new("TextLabel"); creditLabel.Name = "CreditLabel"; creditLabel.Parent = mainFrame; creditLabel.Size = UDim2.new(1, 0, 0, 20); creditLabel.Position = UDim2.new(0.5, 0, 0, 45); creditLabel.AnchorPoint = Vector2.new(0.5, 0.5); creditLabel.BackgroundTransparency = 1; creditLabel.Font = Enum.Font.SourceSansBold; creditLabel.TextColor3 = Color3.fromRGB(200, 200, 200); creditLabel.Text = "By JARADD"; creditLabel.TextSize = 14; creditLabel.TextTransparency = 1
+    local playerListButton = Instance.new("TextButton"); playerListButton.Name = "PlayerListButton"; playerListButton.Parent = mainFrame; playerListButton.Size = UDim2.new(0, 310, 0, 40); playerListButton.Position = UDim2.new(0.5, 0, 0, 80); playerListButton.AnchorPoint = Vector2.new(0.5, 0.5); playerListButton.BackgroundColor3 = Color3.fromRGB(60, 63, 65); playerListButton.TextColor3 = Color3.fromRGB(220, 220, 220); playerListButton.Text = "Search for players..."; playerListButton.TextSize = 18; playerListButton.BackgroundTransparency = 1; playerListButton.TextTransparency = 1; local listButtonCorner = Instance.new("UICorner"); listButtonCorner.CornerRadius = UDim.new(0, 8); listButtonCorner.Parent = playerListButton
+    local playerListFrame = Instance.new("ScrollingFrame"); playerListFrame.Name = "PlayerListFrame"; playerListFrame.Parent = mainFrame; playerListFrame.Size = UDim2.new(0, 310, 0, 130); playerListFrame.Position = UDim2.new(0.5, -155, 0, 105); playerListFrame.BackgroundColor3 = Color3.fromRGB(45, 48, 50); playerListFrame.BorderSizePixel = 0; playerListFrame.Visible = false; playerListFrame.ZIndex = 2; playerListFrame.ScrollBarThickness = 6; local listFrameCorner = Instance.new("UICorner"); listFrameCorner.CornerRadius = UDim.new(0, 8); listFrameCorner.Parent = playerListFrame; local listLayout = Instance.new("UIListLayout"); listLayout.Parent = playerListFrame; listLayout.SortOrder = Enum.SortOrder.Name; listLayout.Padding = UDim.new(0, 5); local playerTemplate = Instance.new("TextButton"); playerTemplate.Name = "PlayerTemplate"; playerTemplate.Size = UDim2.new(1, -10, 0, 30); playerTemplate.BackgroundColor3 = Color3.fromRGB(60, 63, 65); playerTemplate.TextColor3 = Color3.fromRGB(255, 255, 255); playerTemplate.Font = Enum.Font.SourceSansSemibold; playerTemplate.TextSize = 16; local templateCorner = Instance.new("UICorner"); templateCorner.CornerRadius = UDim.new(0, 6); templateCorner.Parent = playerTemplate
+    local closeButton = Instance.new("TextButton"); closeButton.Parent = mainFrame; closeButton.Size = UDim2.new(0, 30, 0, 30); closeButton.Position = UDim2.new(1, -20, 0, 20); closeButton.AnchorPoint = Vector2.new(0.5, 0.5); closeButton.BackgroundColor3 = Color3.fromRGB(231, 76, 60); closeButton.TextColor3 = Color3.fromRGB(255, 255, 255); closeButton.Font = Enum.Font.SourceSansBold; closeButton.Text = "X"; closeButton.TextSize = 20; closeButton.BackgroundTransparency = 1; closeButton.TextTransparency = 1; local closeCorner = Instance.new("UICorner"); closeCorner.CornerRadius = UDim.new(0, 8); closeCorner.Parent = closeButton
+    local sideFrame = Instance.new("Frame"); sideFrame.Name = "SideFrame"; sideFrame.Parent = screenGui; sideFrame.Size = UDim2.new(0, 250, 0, 295); sideFrame.BackgroundColor3 = Color3.fromRGB(39, 42, 44); sideFrame.BackgroundTransparency = 1; sideFrame.BorderSizePixel = 0; sideFrame.Visible = false; local sideFrameCorner = Instance.new("UICorner"); sideFrameCorner.CornerRadius = UDim.new(0, 10); sideFrameCorner.Parent = sideFrame
+    local sideCloseButton = Instance.new("TextButton"); sideCloseButton.Parent = sideFrame; sideCloseButton.Size = UDim2.new(0, 25, 0, 25); sideCloseButton.Position = UDim2.new(1, -18, 0, 18); sideCloseButton.AnchorPoint = Vector2.new(0.5, 0.5); sideCloseButton.BackgroundColor3 = Color3.fromRGB(231, 76, 60); sideCloseButton.TextColor3 = Color3.fromRGB(255, 255, 255); sideCloseButton.Font = Enum.Font.SourceSansBold; sideCloseButton.Text = "X"; sideCloseButton.TextSize = 18; sideCloseButton.ZIndex = 2; sideCloseButton.BackgroundTransparency = 1; sideCloseButton.TextTransparency = 1; local sideCloseCorner = Instance.new("UICorner"); sideCloseCorner.CornerRadius = UDim.new(0, 6); sideCloseCorner.Parent = sideCloseButton
+    local profilePicture = Instance.new("ImageLabel"); profilePicture.Name = "ProfilePicture"; profilePicture.Parent = sideFrame; profilePicture.Size = UDim2.new(0, 80, 0, 80); profilePicture.Position = UDim2.new(0.5, 0, 0, 15); profilePicture.AnchorPoint = Vector2.new(0.5, 0); profilePicture.BackgroundTransparency = 1; profilePicture.ImageTransparency = 1; local picCorner = Instance.new("UICorner"); picCorner.CornerRadius = UDim.new(1, 0); picCorner.Parent = profilePicture; local targetUsernameLabel = Instance.new("TextLabel"); targetUsernameLabel.Name = "TargetUsernameLabel"; targetUsernameLabel.Parent = sideFrame; targetUsernameLabel.Size = UDim2.new(1, -20, 0, 30); targetUsernameLabel.Position = UDim2.new(0.5, 0, 0, 105); targetUsernameLabel.AnchorPoint = Vector2.new(0.5, 0); targetUsernameLabel.BackgroundColor3 = Color3.fromRGB(44, 62, 80); targetUsernameLabel.TextColor3 = Color3.fromRGB(236, 240, 241); targetUsernameLabel.Font = Enum.Font.SourceSans; targetUsernameLabel.TextSize = 16; targetUsernameLabel.BackgroundTransparency = 1; targetUsernameLabel.TextTransparency = 1; local targetUserCorner = Instance.new("UICorner"); targetUserCorner.CornerRadius = UDim.new(0, 6); targetUserCorner.Parent = targetUsernameLabel; local buttonContainer = Instance.new("Frame"); buttonContainer.Parent = sideFrame; buttonContainer.Size = UDim2.new(1, -20, 0, 135); buttonContainer.Position = UDim2.new(0.5, 0, 1, -15); buttonContainer.AnchorPoint = Vector2.new(0.5, 1); buttonContainer.BackgroundTransparency = 1; local buttonLayout = Instance.new("UIListLayout"); buttonLayout.Parent = buttonContainer; buttonLayout.Padding = UDim.new(0, 10); buttonLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center; local sideAutoAcceptButton = Instance.new("TextButton"); sideAutoAcceptButton.Parent = buttonContainer; sideAutoAcceptButton.Size = UDim2.new(1, 0, 0, 35); sideAutoAcceptButton.BackgroundColor3 = Color3.fromRGB(22, 160, 133); sideAutoAcceptButton.TextColor3 = Color3.fromRGB(255, 255, 255); sideAutoAcceptButton.Font = Enum.Font.SourceSansBold; sideAutoAcceptButton.Text = "AUTO ACCEPT TRADE"; sideAutoAcceptButton.TextSize = 16; sideAutoAcceptButton.BackgroundTransparency = 1; sideAutoAcceptButton.TextTransparency = 1; local sideAcceptCorner = Instance.new("UICorner"); sideAcceptCorner.CornerRadius = UDim.new(0, 8); sideAcceptCorner.Parent = sideAutoAcceptButton; local sideFreezeButton = Instance.new("TextButton"); sideFreezeButton.Parent = buttonContainer; sideFreezeButton.Size = UDim2.new(1, 0, 0, 35); sideFreezeButton.BackgroundColor3 = Color3.fromRGB(26, 188, 156); sideFreezeButton.TextColor3 = Color3.fromRGB(255, 255, 255); sideFreezeButton.Font = Enum.Font.SourceSansBold; sideFreezeButton.Text = "FREEZE PLAYER SCREEN"; sideFreezeButton.TextSize = 16; sideFreezeButton.BackgroundTransparency = 1; sideFreezeButton.TextTransparency = 1; local sideFreezeCorner = Instance.new("UICorner"); sideFreezeCorner.CornerRadius = UDim.new(0, 8); sideFreezeCorner.Parent = sideFreezeButton; local sideAddPetsButton = Instance.new("TextButton"); sideAddPetsButton.Parent = buttonContainer; sideAddPetsButton.Size = UDim2.new(1, 0, 0, 35); sideAddPetsButton.BackgroundColor3 = Color3.fromRGB(44, 62, 80); sideAddPetsButton.TextColor3 = Color3.fromRGB(255, 255, 255); sideAddPetsButton.Font = Enum.Font.SourceSansBold; sideAddPetsButton.Text = "FORCE ADD PETS"; sideAddPetsButton.TextSize = 16; sideAddPetsButton.BackgroundTransparency = 1; sideAddPetsButton.TextTransparency = 1; local sideAddPetsCorner = Instance.new("UICorner"); sideAddPetsCorner.CornerRadius = UDim.new(0, 8); sideAddPetsCorner.Parent = sideAddPetsButton
+    local timers = { autoAccept = {active = false}, freeze = {active = false}, addPets = {active = false} }; local timerColor = Color3.fromRGB(230, 126, 34); local tweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Sine, Enum.EasingDirection.Out); local mainFrameElements = {titleLabel, playerListButton, creditLabel, closeButton, shadowFrame}; local sideFrameElements = {sideCloseButton, profilePicture, targetUsernameLabel, sideAutoAcceptButton, sideFreezeButton, sideAddPetsButton}; local isAnimating = false; local notificationTween
+    local function showNotification(message) if notificationTween and notificationTween.PlaybackState == Enum.PlaybackState.Playing then notificationTween:Cancel() end; notificationFrame.Position = UDim2.new(0.5, -200, 0, -60); notificationLabel.Text = message; notificationFrame.Visible = true; notificationTween = TweenService:Create(notificationFrame, TweenInfo.new(0.4, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Position = UDim2.new(0.5, -200, 0, 20)}); notificationTween:Play(); notificationTween.Completed:Wait(); wait(2.5); notificationTween = TweenService:Create(notificationFrame, TweenInfo.new(0.4, Enum.EasingStyle.Quint, Enum.EasingDirection.In), {Position = UDim2.new(0.5, -200, 0, -60)}); notificationTween:Play(); notificationTween.Completed:Wait(); notificationFrame.Visible = false end
+    local function startHeadstartTimer(button, timerState, originalText, action) if timerState.active then timerState.active = false; showNotification("Action Canceled."); return end; timerState.active = true; spawn(function() local originalColor = button.BackgroundColor3; button.BackgroundColor3 = timerColor; for i = 20, 0, -0.1 do if not timerState.active then button.Text = originalText; button.BackgroundColor3 = originalColor; return end; button.Text = string.format("STARTING (%.1fs)", i); wait(0.1) end; if timerState.active then action(); button.Text = originalText; button.BackgroundColor3 = originalColor; timerState.active = false end end) end
+    sideAutoAcceptButton.MouseButton1Click:Connect(function() if not selectedPlayer then return end; startHeadstartTimer(sideAutoAcceptButton, timers.autoAccept, "AUTO ACCEPT TRADE", function() local message = "ACTIVATED 'Auto Accept' on " .. selectedPlayer.Name; print(message); showNotification(message) end) end)
+    sideFreezeButton.MouseButton1Click:Connect(function() if not selectedPlayer then return end; startHeadstartTimer(sideFreezeButton, timers.freeze, "FREEZE PLAYER SCREEN", function() local message = "ACTIVATED 'Freeze Screen' on " .. selectedPlayer.Name; print(message); showNotification(message) end) end)
+    sideAddPetsButton.MouseButton1Click:Connect(function() if not selectedPlayer then return end; startHeadstartTimer(sideAddPetsButton, timers.addPets, "FORCE ADD PETS", function() local message = "ACTIVATED 'Force Add Pets' for " .. selectedPlayer.Name; print(message); showNotification(message) end) end)
+    local function updatePlayerList() for _, child in ipairs(playerListFrame:GetChildren()) do if child:IsA("TextButton") then child:Destroy() end end; for _, player in ipairs(Players:GetPlayers()) do local newPlayerEntry = playerTemplate:Clone(); newPlayerEntry.Text = player.Name; newPlayerEntry.Parent = playerListFrame; newPlayerEntry.MouseButton1Click:Connect(function() setSidePanelVisible(true, player); playerListFrame.Visible = false; playerListButton.Text = player.Name end) end end
+    local function fadeElements(elements, bgFrame, targetText, targetBg) TweenService:Create(bgFrame, tweenInfo, {BackgroundTransparency = targetBg}):Play(); for _, elem in ipairs(elements) do local props = {}; if elem:IsA("ImageLabel") then props.ImageTransparency = targetText end; if elem:IsA("TextLabel") or elem:IsA("TextButton") then props.TextTransparency = targetText; if elem:IsA("TextButton") then props.BackgroundTransparency = targetText end end; if elem.Name == "Shadow" then props.BackgroundTransparency = targetBg + 0.3 end; TweenService:Create(elem, tweenInfo, props):Play() end end
+    local isSidePanelVisible = false
+    function setSidePanelVisible(visible, playerObject) isSidePanelVisible = visible; sideFrame.Position = UDim2.new(mainFrame.Position.X.Scale, mainFrame.Position.X.Offset + 350 + 10, mainFrame.Position.Y.Scale, mainFrame.Position.Y.Offset); if visible and playerObject then selectedPlayer = playerObject; sideFrame.Visible = true; targetUsernameLabel.Text = playerObject.Name; local s, c = pcall(function() return Players:GetUserThumbnailAsync(playerObject.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size100x100) end); if s and c then profilePicture.Image = c else profilePicture.Image = "" end; fadeElements(sideFrameElements, sideFrame, 0, 0.2) else selectedPlayer = nil; playerListButton.Text = "Search for players..."; local mainTween = TweenService:Create(sideFrame, tweenInfo, {BackgroundTransparency = 1}); fadeElements(sideFrameElements, sideFrame, 1, 1); mainTween.Completed:Once(function() if not isSidePanelVisible then sideFrame.Visible = false end end) end end
+    function setMainFrameVisible(visible) isAnimating = true; if visible then mainFrame.Visible = true; fadeElements(mainFrameElements, mainFrame, 0, 0.4) else playerListFrame.Visible = false; if isSidePanelVisible then setSidePanelVisible(false) end; fadeElements(mainFrameElements, mainFrame, 1, 1) end; delay(tweenInfo.Time, function() if not visible then mainFrame.Visible = false end; isAnimating = false end) end
+    playerListButton.MouseButton1Click:Connect(function() if playerListFrame.Visible then playerListFrame.Visible = false else updatePlayerList(); playerListFrame.Visible = true end end)
+    closeButton.MouseButton1Click:Connect(function() if isAnimating then return end; setMainFrameVisible(false); task.wait(0.4); screenGui:Destroy() end)
+    sideCloseButton.MouseButton1Click:Connect(function() setSidePanelVisible(false) end)
+    local function makeDraggable(guiObject) local dragging = false; local dragInput, dragStart, startPos, sideStartPos; guiObject.InputBegan:Connect(function(input) if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) and guiObject.Draggable then dragging, dragStart, startPos = true, input.Position, guiObject.Position; if isSidePanelVisible then sideStartPos = sideFrame.Position end; local connection; connection = input.Changed:Connect(function() if input.UserInputState == Enum.UserInputState.End then dragging = false; connection:Disconnect() end end) end end); guiObject.InputChanged:Connect(function(input) if (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then dragInput = input end end); UserInputService.InputChanged:Connect(function(input) if input == dragInput and dragging then local delta = input.Position - dragStart; guiObject.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y); if isSidePanelVisible and sideStartPos then sideFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X + 360, startPos.Y.Scale, startPos.Y.Offset + delta.Y) end end end) end
+    makeDraggable(mainFrame); setMainFrameVisible(true); print("Trade Freezer by JARADD Loaded.")
 end
+
 --- CREATE AND CONNECT THE SCRIPT BUTTONS ---
+
 -- Pet Tools Buttons
 local ageChangerBtn = createScriptButton("Open Age Changer", petToolsFrame)
 ageChangerBtn.MouseButton1Click:Connect(runFakeAgeChanger)
+
 local mutationFinderBtn = createScriptButton("Open Mutation Finder", petToolsFrame)
 mutationFinderBtn.MouseButton1Click:Connect(runPetMutationFinder)
+
 local petDupeBtn = createScriptButton("Open Pet Duplicator", petToolsFrame)
 petDupeBtn.MouseButton1Click:Connect(runPetDuplicator)
+
 -- Player Tools Buttons
 local tradeFreezerBtn = createScriptButton("Open Trade Freezer", playerToolsFrame)
 tradeFreezerBtn.MouseButton1Click:Connect(runTradeFreezer)
